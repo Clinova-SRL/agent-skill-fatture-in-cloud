@@ -42,7 +42,7 @@ _Generato automaticamente da `scripts/update_endpoints.py` — 123 operazioni._
 
 | Metodo | Path | operationId | Descrizione | Scope |
 |---|---|---|---|---|
-| GET | `/c/{company_id}/company/info` | getCompanyInfo | Get Company Info | — |
+| GET | `/c/{company_id}/company/info` | getCompanyInfo | Get Company Info — nome, email, piano, licenza, permessi. ⚠️ **niente `vat_number`**: la partita IVA sta in `/user/companies` | — |
 | GET | `/c/{company_id}/company/plan_usage` | getCompanyPlanUsage | Get Company Plan Usage | — |
 
 ## Emails
@@ -201,7 +201,7 @@ _Generato automaticamente da `scripts/update_endpoints.py` — 123 operazioni._
 | Metodo | Path | operationId | Descrizione | Scope |
 |---|---|---|---|---|
 | GET | `/user/info` | getUserInfo | Get User Info | — |
-| GET | `/user/companies` | listUserCompanies | List User Companies | — |
+| GET | `/user/companies` | listUserCompanies | List User Companies — per ogni azienda dà anche **`vat_number` e `tax_code`**: è l'unico posto dove stanno | — |
 
 ## Webhooks
 

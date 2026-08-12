@@ -53,6 +53,16 @@ Richiedi il minimo indispensabile: scope mancanti → 403 sulle chiamate; troppi
 
 Dopo il token, ricava il `company_id` con `GET /user/companies` (le company accessibili all'utente, con ruolo e permessi). Serve per tutti i metodi `/c/{company_id}/...`. `GET /user/info` restituisce l'utente. `GET /c/{id}/company/info` i dettagli e le funzioni attive della company.
 
+⚠️ **La partita IVA dell'azienda sta in `/user/companies`, non in `/company/info`.** È il punto dove si perde più tempo di tutta l'autenticazione, perché l'endpoint che sembra quello giusto è l'altro. Per ogni azienda `/user/companies` restituisce anche `vat_number` e `tax_code`:
+
+```json
+{"id": 1619878, "name": "Gateway Prova SRL", "vat_number": "01234567897", "tax_code": "01234567897"}
+```
+
+`GET /c/{id}/company/info` dà nome, email, piano, licenza e permessi — `vat_number` **non c'è proprio**. Chi cerca lì i dati fiscali dell'emittente conclude che l'API non li esponga affatto, e finisce per ricopiarli a mano in configurazione: due verità che poi divergono, e un documento che dice una cosa diversa dal registro.
+
+Quello che invece FIC **non espone da nessun endpoint** è la **sede** dell'azienda — indirizzo, CAP, comune, provincia. Provati `/company/info`, `/user/companies`, `/settings/tax_profile`: non c'è. Quella va scritta a mano. *(Verificato contro l'API il 12/08/2026, azienda 1619878.)*
+
 ## Errori OAuth
 
 - Authorization phase: errori come query param nella redirect (o mostrati sulla pagina FIC se la redirect è invalida).

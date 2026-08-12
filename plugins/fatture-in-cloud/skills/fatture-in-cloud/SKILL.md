@@ -31,7 +31,7 @@ Prima di scrivere codice leggi il file di riferimento pertinente in `references/
 ## Regole non negoziabili (le trappole che causano il 90% degli errori)
 
 1. **Body incapsulati**: richieste Create/Modify → `{"data": {...}}`; risposte → `{"data": {...}}`. Le List sono paginate stile Laravel (`data[]`, `next_page_url`, `total`).
-2. **`per_page` di default è 5**. Impostalo sempre (max 100) e pagina finché `next_page_url` è null, altrimenti "perdi" risorse silenziosamente.
+2. **`per_page` di default è 50** (verificato 12/08/2026 su `entities/clients`, `issued_documents`, `received_documents`, `products`). Impostalo comunque (max 100) e pagina finché `next_page_url` è null: 50 basta a nascondere il problema in sviluppo e non in produzione.
 3. **`fieldset=detailed` per i dettagli**: le List (e alcune Get) di default NON restituiscono `items_list`, `payments_list`, `ei_status`. Se un campo "manca", quasi sempre è un problema di fieldset/fields, non dell'API.
 4. **Niente autocompletamento**: passare `entity.id` o `product_id` NON popola nome, indirizzo, prezzi nel documento. Ogni campo che deve comparire va scritto esplicitamente nel body (recuperalo prima con Get Client/Product).
 5. **Creare una e-fattura NON la invia all'SDI**: serve `POST .../e_invoice/send` separato; poi si monitora `ei_status` (con fieldset detailed) o il webhook `e_invoices.status_update`. Per i test usa `options.dry_run: true`. Non è possibile inviare XML generati esternamente.
@@ -48,7 +48,9 @@ Prima di scrivere codice leggi il file di riferimento pertinente in `references/
 ## Workflow tipo: creare e inviare una fattura elettronica
 
 ```
-1. GET /c/{id}/issued_documents/info          → numerazioni, vat_types, payment_accounts, methods, templates di default
+1. GET /c/{id}/issued_documents/info?type=invoice   → numerazioni, vat_types, payment_accounts, methods, templates
+                                              ⚠️ `type` (o `id`) è OBBLIGATORIO: senza, 422
+                                                 "The type field is required when id is not present."
 2. GET /c/{id}/entities/clients?q=vat_number = '...'   → id + dati cliente (o POST per crearlo)
 3. POST /c/{id}/issued_documents/totals       → verifica importi di items+payments
 4. POST /c/{id}/issued_documents              → {"data": {type, entity{...completa...}, date, numeration,
