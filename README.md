@@ -37,7 +37,7 @@ I file sono markdown puro: copiali dove il tuo agent cerca le skill (es. `~/.cla
 
 ## Perché esiste
 
-Gli LLM conoscono le API di Fatture in Cloud a spizzichi e sbagliano quasi sempre le stesse cose: `per_page` che di default è 5, `fieldset=detailed` necessario per vedere `items_list`/`payments_list`/`ei_status`, il fatto che creare una e-fattura non la invii all'SDI, il PUT che sostituisce integralmente le liste, gli URL dei PDF che scadono dopo 7 giorni. Questa skill mette quelle regole nero su bianco insieme al riferimento completo generato dalla spec OpenAPI ufficiale.
+Gli LLM conoscono le API di Fatture in Cloud a spizzichi e sbagliano quasi sempre le stesse cose: `per_page` che di default è 50 (non 5), `fieldset=detailed` necessario per vedere `items_list`/`payments_list`/`ei_status`, il fatto che creare una e-fattura non la invii all'SDI, il PUT che sostituisce integralmente le liste, gli URL dei PDF che scadono dopo 7 giorni. Questa skill mette quelle regole nero su bianco insieme al riferimento completo generato dalla spec OpenAPI ufficiale.
 
 ## Contenuto
 

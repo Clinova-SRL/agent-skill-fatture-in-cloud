@@ -34,7 +34,7 @@ Nota: `any_subject` su listIssuedDocuments cerca sia in `subject` sia in `visibl
 
 ## Paginazione
 
-- `page` (default 1) e `per_page` (**default 5**, max 100). Impostare sempre `per_page=100` per sincronizzazioni.
+- `page` (default 1) e `per_page` (**default 50**, max 100). Impostare sempre `per_page=100` per sincronizzazioni.
 - Risposta stile Laravel: `current_page, data[], first_page_url, from, last_page, last_page_url, next_page_url, path, per_page, prev_page_url, to, total`.
 - Loop: continua finché `next_page_url != null` (o `current_page < last_page`).
 

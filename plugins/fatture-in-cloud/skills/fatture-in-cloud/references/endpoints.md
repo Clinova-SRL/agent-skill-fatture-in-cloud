@@ -219,7 +219,7 @@ _Generato automaticamente da `scripts/update_endpoints.py` — 123 operazioni._
 | Parametro | Dove | Note |
 |---|---|---|
 | `page` | list | default 1 |
-| `per_page` | list | **default 5** (!), min 1, max 100 — impostalo sempre esplicitamente |
+| `per_page` | list | **default 50** (verificato 12/08/2026), min 1, max 100 — impostalo sempre esplicitamente |
 | `sort` | list | campi separati da virgola, prefisso `-` per discendente (es. `sort=-date,number`) |
 | `q` | list | filtro SQL-like URL-encoded (vedi query-filtri-paginazione.md) |
 | `fields` | list/get | lista campi separati da virgola da includere nella risposta |
@@ -234,6 +234,8 @@ _Generato automaticamente da `scripts/update_endpoints.py` — 123 operazioni._
 
 ## Risposte
 
-- Get/Create/Modify incapsulano la risorsa in `{"data": {...}}`; anche i body Create/Modify vanno in `{"data": {...}}` (Create Issued Document accetta anche `"options": {...}`, es. `dry_run`).
+- Get/Create/Modify incapsulano la risorsa in `{"data": {...}}`; anche i body Create/Modify vanno in `{"data": {...}}` (Create Issued Document accetta anche `"options": {...}`).
+
+  🔴 **`dry_run` è documentato solo su `e_invoice/send`, non sulla Create.** Nella specifica OpenAPI 2.1.8 la stringa `dry_run` non compare **nemmeno una volta**: l'unica fonte è la documentazione dell'invio a SDI. Non dare per scontato che `options.dry_run` renda innocuo un `POST /issued_documents` — quella chiamata crea un documento **vero**, con un numero vero, nella numerazione vera. Se l'ipotesi è sbagliata non te ne accorgi da un errore: te ne accorgi da una fattura da stornare con una nota di credito. Per provare senza rischi si apre un secondo account FIC con un'azienda finta: una sandbox non esiste.
 - Le List restituiscono paginazione stile Laravel: `current_page`, `data[]`, `last_page`, `next_page_url`, `per_page`, `total`, ecc. Stop quando `next_page_url == null`.
 - Ogni risposta include gli header `RateLimit-*` (e `Retry-After` su 403/429).

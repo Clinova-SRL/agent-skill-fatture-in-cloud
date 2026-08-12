@@ -41,7 +41,7 @@ FOOTER = """
 | Parametro | Dove | Note |
 |---|---|---|
 | `page` | list | default 1 |
-| `per_page` | list | **default 5** (!), min 1, max 100 — impostalo sempre esplicitamente |
+| `per_page` | list | **default 50** (verificato 12/08/2026), min 1, max 100 — impostalo sempre esplicitamente |
 | `sort` | list | campi separati da virgola, prefisso `-` per discendente (es. `sort=-date,number`) |
 | `q` | list | filtro SQL-like URL-encoded (vedi query-filtri-paginazione.md) |
 | `fields` | list/get | lista campi separati da virgola da includere nella risposta |

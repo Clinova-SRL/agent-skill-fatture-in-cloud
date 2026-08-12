@@ -74,7 +74,7 @@ Solo client: `default_payment_terms, default_payment_terms_type, default_vat, de
 ## PaymentMethod / PaymentAccount
 
 - PaymentMethod: `id, name, type (standard|riba), is_default, default_payment_account, details[] (title/description), bank_iban, bank_name, bank_beneficiary, ei_payment_method (codice MP FatturaPA)`
-- PaymentAccount: `id, name, type (standard|bank), iban, sia, fic (RO)` — lista via `GET /c/{id}/info/payment_accounts`.
+- PaymentAccount: `id, name, type (standard|bank), iban, sia, cuc, virtual` — lista via `GET /c/{id}/info/payment_accounts`. ⚠️ Non esiste nessun campo `fic` sul conto: `fic` è un flag di **azienda** («ha Fatture in Cloud attivo») e compare solo nelle risposte di `/user/companies` e `/company/info`.
 
 ## TaxProfile (`GET /c/{id}/settings/tax_profile`)
 
