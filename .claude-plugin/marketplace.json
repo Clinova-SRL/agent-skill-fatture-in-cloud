@@ -1,0 +1,26 @@
+{
+  "name": "clinova",
+  "description": "Skill per agent su API e integrazioni italiane",
+  "owner": {
+    "name": "Clinova SRL",
+    "url": "https://github.com/Clinova-SRL"
+  },
+  "plugins": [
+    {
+      "name": "fatture-in-cloud",
+      "source": "./plugins/fatture-in-cloud",
+      "description": "Riferimento completo delle API v2 di Fatture in Cloud: endpoint, scope, modelli, e-fattura, rate limit e trappole note.",
+      "category": "integrations",
+      "keywords": [
+        "fatture-in-cloud",
+        "fatturazione-elettronica",
+        "italia",
+        "api",
+        "sdi"
+      ],
+      "license": "MIT",
+      "homepage": "https://github.com/Clinova-SRL/agent-skill-fatture-in-cloud",
+      "repository": "https://github.com/Clinova-SRL/agent-skill-fatture-in-cloud"
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+Questo progetto include materiale derivato dalla OpenAPI Specification
+ufficiale di Fatture in Cloud:
+
+    https://github.com/fattureincloud/openapi-fattureincloud
+    Copyright (c) 2021 Fatture in Cloud
+    Licenza MIT
+
+In particolare, il file skills/fatture-in-cloud/references/endpoints.md e'
+generato automaticamente da tale specifica tramite scripts/update_endpoints.py.
+
+Gli altri file della skill sono sintesi originali della documentazione
+pubblica disponibile su https://developers.fattureincloud.it e non ne
+riproducono il testo.
+
+Progetto non ufficiale, non affiliato ne' approvato da Fatture in Cloud /
+TeamSystem S.p.A. "Fatture in Cloud" e' un marchio dei rispettivi titolari,
+citato a soli fini descrittivi.

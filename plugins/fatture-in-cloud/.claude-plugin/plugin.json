@@ -1,0 +1,12 @@
+{
+  "name": "fatture-in-cloud",
+  "description": "Riferimento completo delle API v2 di Fatture in Cloud per integrazioni: endpoint, scope, modelli, fattura elettronica, rate limit e trappole note.",
+  "version": "1.0.0",
+  "author": {
+    "name": "Clinova SRL",
+    "url": "https://github.com/Clinova-SRL"
+  },
+  "license": "MIT",
+  "homepage": "https://github.com/Clinova-SRL/agent-skill-fatture-in-cloud",
+  "repository": "https://github.com/Clinova-SRL/agent-skill-fatture-in-cloud"
+}

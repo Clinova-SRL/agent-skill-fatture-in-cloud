@@ -1,0 +1,21 @@
+name: Release .skill
+
+on:
+  push:
+    tags: ["v*"]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v6
+      - name: Build .skill bundle
+        run: |
+          cd plugins/fatture-in-cloud/skills
+          zip -r "$GITHUB_WORKSPACE/fatture-in-cloud.skill" fatture-in-cloud
+      - name: Publish release
+        uses: softprops/action-gh-release@v3
+        with:
+          files: fatture-in-cloud.skill
