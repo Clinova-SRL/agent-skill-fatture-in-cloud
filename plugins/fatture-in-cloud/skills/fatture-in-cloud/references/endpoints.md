@@ -227,6 +227,18 @@ _Generato automaticamente da `scripts/update_endpoints.py` — 123 operazioni._
 | `type` | issued/received docs | seleziona il tipo documento |
 | `include_attachment` | getEInvoiceXml | include allegato nell'XML |
 
+## `issued_documents/info`: il prossimo numero, per sezionale
+
+`GET /c/{company_id}/issued_documents/info` **richiede `type`** (senza, risponde 422: «The type field is required when id is not present»).
+
+Fra le sue chiavi c'è `numerations`, che è il modo per sapere **quale numero FIC assegnerebbe adesso**, senza calcolarlo a mano e senza scorrere i documenti:
+
+```json
+"numerations": { "2026": { "/PR": 2 } }
+```
+
+Anno → sezionale → prossimo progressivo. Serve per accorgersi che qualcuno ha emesso fuori dal proprio sistema, o che si sta per scrivere su una serie sbagliata. Restituisce anche `default_values` (con il `template` predefinito), `vat_types_list`, `payment_accounts_list`, `payment_methods_list`, `templates_list`, `countries_list`, `dn_numerations`.
+
 ## Parametri di transform e join
 
 - `GET /c/{company_id}/issued_documents/transform` — query: `original_document_id`, `new_type`, `type` (tipo attuale), `e_invoice`, `transform_keep_copy`.
