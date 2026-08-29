@@ -24,6 +24,10 @@
 Struttura minima Create: `{"data": {"type": "...", "entity": {...}, "items_list": [...], "payments_list": [...]}}`
 
 - Identità: `id` (mai in Create), `type`, `number` (se omesso → progressivo automatico), `numeration` (sezionale, es. `"/fatt"`; non disponibile per delivery_note), `date` (default oggi), `year`
+
+  ⚠️ **La bozza di `GET /issued_documents/transform` arriva con `number`, `numeration` e `year` già valorizzati** (`{"id": null, "number": 1, "numeration": "", "year": 2026}`). Se la usi come base del corpo della Create, scartali insieme a `id`: rimandarli indietro significa proporre un numero, e un numero proposto può essere già occupato. Verificato sull'API a marzo 2026.
+
+  ⚠️ **`numeration` è confrontato per stringa**: `"LL"` e `"/LL"` sono due serie diverse, ognuna col suo progressivo. Normalizza il sezionale in un punto solo del tuo codice, o due strade d'ingresso apriranno due numerazioni parallele e te ne accorgerai quando escono due documenti numero 1.
 - Descrizioni: `subject` (interno, non in PDF), `visible_subject` (in PDF), `notes`, `rc_center` (centro ricavo; per supplier_order è centro di costo)
 - `currency` (`{"id":"EUR"}`), `language` (`{"code":"it","name":"Italiano"}`)
 - Contributi/ritenute: `rivalsa`, `cassa`, `cassa2` (+ varianti `*_taxable`, `amount_*` read-only), `withholding_tax` + `withholding_tax_taxable`, `other_withholding_tax`, `amount_enasarco_taxable`, `stamp_duty`

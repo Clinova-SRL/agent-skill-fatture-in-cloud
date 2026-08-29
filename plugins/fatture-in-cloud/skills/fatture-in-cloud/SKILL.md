@@ -32,7 +32,7 @@ Prima di scrivere codice leggi il file di riferimento pertinente in `references/
 
 1. **Body incapsulati**: richieste Create/Modify → `{"data": {...}}`; risposte → `{"data": {...}}`. Le List sono paginate stile Laravel (`data[]`, `next_page_url`, `total`).
 2. **`per_page` di default è 50** (verificato 12/08/2026 su `entities/clients`, `issued_documents`, `received_documents`, `products`). Impostalo comunque (max 100) e pagina finché `next_page_url` è null: 50 basta a nascondere il problema in sviluppo e non in produzione.
-3. **`fieldset=detailed` per i dettagli**: le List (e alcune Get) di default NON restituiscono `items_list`, `payments_list`, `ei_status`. Se un campo "manca", quasi sempre è un problema di fieldset/fields, non dell'API.
+3. **`fieldset=detailed` per i dettagli**: le List (e alcune Get) di default NON restituiscono `items_list`, `payments_list`, `ei_status`. Se un campo "manca", quasi sempre è un problema di fieldset/fields, non dell'API. Il caso che inganna di più è `GET /info/vat_types`: senza `fieldset=detailed` torna solo `id, description, value, is_disabled` — **senza `ei_type`, cioè senza la natura**. L'elenco sembra dire che l'azienda non ha nessuna aliquota con natura, e la conclusione è sbagliata.
 4. **Niente autocompletamento**: passare `entity.id` o `product_id` NON popola nome, indirizzo, prezzi nel documento. Ogni campo che deve comparire va scritto esplicitamente nel body (recuperalo prima con Get Client/Product).
 5. **Creare una e-fattura NON la invia all'SDI**: serve `POST .../e_invoice/send` separato; poi si monitora `ei_status` (con fieldset detailed) o il webhook `e_invoices.status_update`. Per i test usa `options.dry_run: true`. Non è possibile inviare XML generati esternamente.
 6. **`vat.id` è per-company**: recupera gli id con `GET /c/{id}/info/vat_types` (richiede scope `settings:r`); non dare per scontato che 0 = 22%.
@@ -44,6 +44,8 @@ Prima di scrivere codice leggi il file di riferimento pertinente in `references/
 12. **Filtri `q` solo sui campi ammessi** dal metodo specifico (tabella in query-filtri-paginazione.md); campo non autorizzato = errore. Stringhe tra apici singoli, tutto URL-encoded.
 13. **Bollo in e-fattura a carico cliente** = riga dedicata (`Bollo in fattura`, 2€, `not_taxable: true`, IVA 0% Escluso Art.15) — il campo `stamp_duty` in e-fattura mette il bollo a carico dell'emittente.
 14. **422 = leggi `validation_result`**: contiene campo per campo cosa non va; non tirare a indovinare.
+15. **`transform` restituisce una bozza che contiene già `number`**: `GET /issued_documents/transform` risponde con `{"id": null, "number": 1, "numeration": "", "year": 2026, ...}`. Se usi quella bozza come base del corpo da inviare (per non perdere il legame col documento originale) **togli `number`, `numeration` e `year` insieme a `id`**, o stai proponendo tu un numero: se nel frattempo quel numero è stato preso — anche solo da un documento creato a mano dal pannello — la Create fallisce con un 422 che si ripresenta identico a ogni tentativo. Omettendo `number`, FIC assegna sempre il progressivo successivo e il conflitto non esiste.
+16. **La partita IVA della company NON è in `/company/info`**: quell'endpoint dà nome, email, piano e licenza, e `vat_number` non c'è proprio. Sta in **`GET /user/companies`**, che è a livello di utente e per ogni company restituisce `vat_number` e `tax_code`. Cercarla in `/company/info` produce un «nessuna partita IVA» che sembra un problema di configurazione e non lo è.
 
 ## Workflow tipo: creare e inviare una fattura elettronica
 
